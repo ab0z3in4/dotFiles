@@ -46,20 +46,16 @@ ln -s /etc/sv/dbus /var/service/
 #######################
 ##-->  add alias  <--##
 #######################
-alias i='doas xbps-install -S'
-alias u='i && doas xbps-install -u xbps && doas xbps-install -u'
-alias q='doas xbps-query -Rs'
-alias r='doas xbps-remove -R'
-<------------------------------------------------------------------------------------------------->
-######################
-##-->  opendoas  <--##
-######################
-sudo vim /etc/doas.conf # permit nopass ab0z3in4 as root
+alias i='sudo xbps-install -S'
+alias u='i && sudo xbps-install -u xbps && sudo xbps-install -u'
+alias q='sudo xbps-query -Rs'
+alias r='sudo xbps-remove -R'
 <------------------------------------------------------------------------------------------------->
 ############################
 ##-->  Nvidia Drivers  <--##
 ############################
-
+i void-repo-nonfree
+i nvidia intel-ucode 
 <------------------------------------------------------------------------------------------------->
 ##########################################
 ##-->  xorg and dwm and st terminal  <--##
@@ -67,7 +63,7 @@ sudo vim /etc/doas.conf # permit nopass ab0z3in4 as root
 i git make gcc libX11-devel libXft-devel libXinerama-devel pkg-config
 i xorg-server xinit xauth xorg-fonts xorg-input-drivers
 vim ~/.xinitrc # exec dwm
-doas make install clean
+sudo make install clean
 
 #########################################
 ##-->  dwm and st terminal Patches  <--##
@@ -83,6 +79,7 @@ noborder
 i xorg-server xinit xauth xorg-fonts xorg-input-drivers setxkbmap
 i bspwm sxhkd picom nitrogen polkit-gnome dunst numlockx udiskie polybar rofi alacritty starship xfce4-power-manager neovim network-manager-applet Thunar thunar-archive-plugin pamixer power-profiles-daemon flameshot gnome-calculator vlc mpv gthumb file-roller
 setxkbmap -layout us,ara -variant ,digits -option grp:lctrl_lwin_toggle
+sudo ln -s /etc/sv/power-profiles-daemon /var/service/
 
 <------------------------------------------------------------------------------------------------->
 ######################
