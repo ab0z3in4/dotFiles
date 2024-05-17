@@ -90,3 +90,22 @@ i pipewire libjack-pipewire alsa-pipewire wireplumber
 : "${XDG_CONFIG_HOME:=${HOME}/.config}"
 mkdir -p "${XDG_CONFIG_HOME}/pipewire/pipewire.conf.d"
 ln -s /usr/share/examples/wireplumber/10-wireplumber.conf "${XDG_CONFIG_HOME}/pipewire/pipewire.conf.d/"
+<------------------------------------------------------------------------------------------------->
+##################
+##-->  qemu  <--##
+##################
+i libvirt virt-manager qemu polkit
+
+# Edit /etc/libvirt/libvirtd.conf
+# unix_sock_group = "libvirt"
+# unix_sock_rw_perms = "0770"
+sudo usermod -a -G libvirt,kvm $(whoami)
+newgrp libvirt
+sudo ln -s /etc/sv/dbus /var/service/
+sudo ln -s /etc/sv/polkitd /var/service
+sudo ln -s /etc/sv/libvirtd /var/service/
+sudo ln -s /etc/sv/virtlockd /var/service/
+sudo ln -s /etc/sv/virtlogd /var/service/
+sudo virsh net-start default
+sudo virsh net-autostart default
+sudo virsh net-list --all
