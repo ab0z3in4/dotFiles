@@ -5,6 +5,11 @@
 #########################
 
 echo ""
+echo "Disable PcBeep"
+cd /etc/modprobe.d/
+sudo vim nobeep.conf # ==> blacklist pcspkr
+
+echo ""
 echo "install xdg-user-dirs"
 sudo pacman --noconfirm -S xdg-user-dirs
 xdg-user-dirs-update

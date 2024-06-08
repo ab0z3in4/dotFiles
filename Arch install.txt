@@ -69,15 +69,6 @@ EDITOR=vim visudo
 exit
 reboot
 ###############################################################################################################################################
-xfce4 xfce4-goodies pavucontrol gvfs xarchive
-
-
-SigLevel = Optional TrustAll
-
-
-https://github.com/antfu/vscode-settings
-sudo localectl --no-convert set-x11-keymap us,ara pc104 qwerty grp:lctrl_lwin_toggle
-###############################################################################################################################################
 ##########################
 # Install NetworkManager #
 ##########################
