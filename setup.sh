@@ -34,7 +34,7 @@ sudo fc-cache -fv
 
 echo ""
 echo "install Drivers"
-yay --noconfirm dkms nvidia-dkms nvidia-utils nvidia-settings intel-media-driver libva-intel-driver mesa vulkan-intel blueman
+yay --noconfirm -S dkms nvidia-dkms nvidia-utils nvidia-settings intel-media-driver libva-intel-driver mesa vulkan-intel blueman xf86-video-intel
 sudo cp 30-touchpad.conf /etc/X11/xorg.conf.d/
 sudo systemctl enable bluetooth.service
 
@@ -58,7 +58,7 @@ sudo systemctl enable power-profiles-daemon.service
 
 echo ""
 echo "install GTK and QT Themes"
-yay --noconfirm -S kvantum qt5ct qt6ct orchis-theme kvantum-theme-orchis-git papirus-icon-theme bibata-cursor-theme-bin
+yay --noconfirm -S kvantum kvantum-qt5 qt5ct qt6ct orchis-theme kvantum-theme-orchis-git papirus-icon-theme bibata-cursor-theme-bin
 sudo echo -e "QT_QPA_PLATFORMTHEME=qt5ct\nQT_QPA_PLATFORMTHEME=qt6ct\nGTK_THEME=Orchis-Dark-Compact\nEDITOR=vim\nBROWSER=firefox" | sudo tee -a /etc/environment
 sudo echo -e "[Icon Theme]\nInherits=Bibata-Modern-Classic" >> /usr/share/icons/default/index.theme
 
