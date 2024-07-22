@@ -41,3 +41,18 @@ bspc rule -a Pavucontrol state=floating
 bspc rule -a Gthumb state=floating
 bspc rule -a Timeshift-gtk state=floating
 bspc rule -a File-roller state=floating
+
+### AutoStart  ###
+pgrep -x sxhkd > /dev/null || sxhkd &
+pgrep -x polybar > /dev/null || polybar &
+nitrogen --restore &
+picom -f &
+nm-applet &
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+dunst &
+copyq &
+blueman-applet &
+numlockx on &
+udiskie -t &
+xfce4-power-manager &
+xsetroot -cursor_name left_ptr &

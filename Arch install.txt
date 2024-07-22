@@ -117,7 +117,7 @@ sudo aa-enabled
 # Install qt #
 ##############
 echo $'[Qt]\nstyle=GTK+' >> ~/.config/Trolltech.conf
-yay -S qt5-styleplugins
+yay -S qt5-styleplugins qt6gtk2
 sudo echo -e 'QT_QPA_PLATFORMTHEME=gtk2\nGTK_THEME=Flat-Remix-GTK-Blue-Darkest-Solid\nEDITOR=vim\nBROWSER=firefox' | sudo tee -a /etc/environment
 
 ####################

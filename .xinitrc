@@ -48,17 +48,4 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
-pgrep -x sxhkd > /dev/null || sxhkd &
-pgrep -x polybar > /dev/null || polybar &
-nitrogen --restore &
-picom -f &
-nm-applet &
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-dunst &
-copyq &
-blueman-applet &
-numlockx on &
-udiskie -t &
-xfce4-power-manager &
-xsetroot -cursor_name left_ptr &
 exec bspwm
