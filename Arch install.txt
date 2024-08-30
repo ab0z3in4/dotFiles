@@ -1,0 +1,146 @@
+######################################
+# Install ArchLinux With archinstall #
+######################################
+fdisk /dev/sda # g n enter enter +1G t 1 n enter enter enter p w
+mkfs.fat -F 32 /dev/sda1
+mkfs.btrfs -f /dev/sda2
+mount /dev/sda2 /mnt
+btrfs su cr /mnt/@
+btrfs su cr /mnt/@home
+btrfs su cr /mnt/@pkg
+btrfs su cr /mnt/@log
+btrfs su cr /mnt/@snapshots
+umount /mnt
+mkdir /mnt/archinstall
+mount -o defaults,noatime,compress=zstd,commit=120,subvol=@ /dev/sda2 /mnt/archinstall
+mkdir -p /mnt/archinstall/{home,var/cache/pacman/pkg,var/log,.snapshots}
+mount -o defaults,noatime,compress=zstd,commit=120,subvol=@home /dev/sda2 /mnt/archinstall/home
+mount -o defaults,noatime,compress=zstd,commit=120,subvol=@pkg /dev/sda2 /mnt/archinstall/var/cache/pacman/pkg
+mount -o defaults,noatime,compress=zstd,commit=120,subvol=@log /dev/sda2 /mnt/archinstall/var/log
+mount -o defaults,noatime,compress=zstd,commit=120,subvol=@snapshots /dev/sda2 /mnt/archinstall/.snapshots
+mount --mkdir /dev/sda1 /mnt/archinstall/boot
+
+#########################################
+# Install ArchLinux Without archinstall #
+#########################################
+timedatectl set-ntp true
+fdisk /dev/sda # g n enter enter +1G t 1 n enter enter enter p w
+mkfs.fat -F 32 /dev/sda1
+mkfs.btrfs /dev/sda2
+mount /dev/sda2 /mnt
+btrfs su cr /mnt/@
+btrfs su cr /mnt/@home
+btrfs su cr /mnt/@pkg
+btrfs su cr /mnt/@log
+btrfs su cr /mnt/@snapshots
+umount /mnt
+mount -o defaults,noatime,compress=zstd,commit=120,subvol=@ /dev/sda2 /mnt
+mkdir -p /mnt/{home,var/cache/pacman/pkg,var/log,.snapshots}
+mount -o defaults,noatime,compress=zstd,commit=120,subvol=@home /dev/sda2 /mnt/home
+mount -o defaults,noatime,compress=zstd,commit=120,subvol=@pkg /dev/sda2 /mnt/var/cache/pacman/pkg
+mount -o defaults,noatime,compress=zstd,commit=120,subvol=@log /dev/sda2 /mnt/var/log
+mount -o defaults,noatime,compress=zstd,commit=120,subvol=@snapshots /dev/sda2 /mnt/.snapshots
+mount --mkdir /dev/sda1 /mnt/boot
+pacstrap -K /mnt base base-devel linux linux-headers linux-firmware efibootmgr btrfs-progs intel-ucode
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+ln -sf /usr/share/zoneinfo/Africa/Cairo /etc/localtime
+hwclock --systohc
+vim /etc/locale.gen
+locale-gen
+vim /etc/locale.conf # >> LANG=en_US.UTF-8
+vim /etc/hostname # >> AboZeina-PC
+vim /etc/hosts
+=================================================================================================
+127.0.0.1  localhost
+::1        localhost
+127.0.1.1  AboZeina-PC
+=================================================================================================
+passwd
+vim /etc/mkinitcpio.conf
+mkinitcpio -p linux
+pacman -S base-devel grub networkmanager bash-completion
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
+systemctl enable NetworkManager
+useradd -m -G wheel,audio,video -m abozeina
+passwd abozeina
+EDITOR=vim visudo
+exit
+reboot
+##########################
+# Install NetworkManager #
+##########################
+sudo pacman -S network-manager-applet nm-connection-editor
+
+####################
+# Install PipeWire #
+####################
+sudo pacman -S pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol
+systemctl --user enable pipewire.service
+systemctl --user enable pipewire-pulse.service
+systemctl --user enable wireplumber.service
+
+###############
+# Install ufw #
+###############
+sudo pacman -S ufw gufw
+sudo systemctl enable ufw.service
+sudo ufw enable
+
+####################
+# Install apparmor #
+####################
+sudo pacman -S apparmor audit python-notify2 python-psutil
+sudo vim /etc/default/grub # >> audit=1 lsm=landlock,lockdown,yama,integrity,apparmor,bpf
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+sudo systemctl enable apparmor.service
+sudo systemctl enable auditd.service
+reboot
+sudo groupadd -r audit
+sudo gpasswd -a $USER audit
+sudo vim /etc/audit/auditd.conf # >> log_group = audit
+vim ~/.config/autostart/apparmor-notify.desktop 
+=================================================================================================
+[Desktop Entry]
+Type=Application
+Name=AppArmor Notify
+Comment=Receive on screen notifications of AppArmor denials
+TryExec=aa-notify
+Exec=aa-notify -p -s 1 -w 60 -f /var/log/audit/audit.log
+StartupNotify=false
+NoDisplay=true
+=================================================================================================
+sudo aa-enabled
+
+##############
+# Install qt #
+##############
+echo $'[Qt]\nstyle=GTK+' >> ~/.config/Trolltech.conf
+yay -S qt5-styleplugins qt6gtk2
+sudo echo -e 'QT_QPA_PLATFORMTHEME=gtk2\nGTK_THEME=Flat-Remix-GTK-Blue-Darkest-Solid\nEDITOR=vim\nBROWSER=firefox' | sudo tee -a /etc/environment
+
+####################
+# Install hyprland #
+####################
+yay -S hyprland-nvidia xorg-xwayland firefox xorg-xhost polkit polkit-kde-agent xdg-desktop-portal-hyprland xdg-desktop-portal-gtk swayidle waybar-hyprland hyprpaper nwg-look wl-clipboard kitty dunst qt5ct qt6ct kvantum fuzzel nautilus network-manager-applet nm-connection-editor blueman gnome-keyring grim slurp flameshot wlogout sddm
+
+########################
+# Install qemu network #
+########################
+sudo virsh net-start default
+sudo virsh net-autostart default
+sudo virsh net-list --all
+
+yay -S x-resize
+https://aur.archlinux.org/x-resize.git
+
+mkdir ova_output && tar -xvf <image-name>.ova -C ova_output
+qemu-img convert -f vmdk <image-name>.vmdk -O qcow2 <image-name>.qcow2
+qemu-img info <image-name>.qcow2
+file <image-name>.qcow2
+
+#########################
+# Virtualbox Mount File #
+#########################
+sudo usermod -a -G vboxsf $(whoami)

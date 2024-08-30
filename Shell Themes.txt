@@ -1,0 +1,35 @@
+############
+### ROOT ###
+############
+
+# ZSH THEME
+PS1="%{$fg[red]%}%B┌──[ %b%{$fg[$reset_color]%}%m%{$fg[red]%}%B ]-%b%{$fg[red]%}%B[%b%{$fg[$reset_color]%}%~%{$fg[red]%}%B]%b
+%{$fg[red]%}%B└─%B%(#.%F{red}#.%F{blue}$)%{$reset_color%} "
+
+# BASH THEME
+red="$(tput bold; tput setaf 1)"
+PS1="\[$red\]┌──[ \[$white\]\H\[$red\] ]\[$white\]-\[$red\][\[$white\]\w\[$red\]]\n\[$red\]└─# \[$nc\]"
+
+############
+### USER ###
+############
+
+# ZSH THEME
+PS1="%{$fg[blue]%}%B┌──[ %b%{$fg[$reset_color]%}%m%{$fg[blue]%}%B ]-%b%{$fg[blue]%}%B[%b%{$fg[$reset_color]%}%~%{$fg[blue]%}%B]%b
+%{$fg[blue]%}%B└─%B%(#.%F{red}#.%F{blue}$)%{$reset_color%} "
+
+# BASH THEME
+PS1="\[$blue\]┌──[ \[$white\]\H\[$blue\] ]\[$white\]-\[$blue\][\[$white\]\w\[$blue\]]\n\[$blue\]└─$ \[$nc\]"
+
+# AutoSuggestions FOR ZSH
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Change Default Shell
+
+#ROOT
+sudo -s
+chsh -s /bin/zsh root
+exit
+
+#USER
+chsh -s /bin/zsh $USER

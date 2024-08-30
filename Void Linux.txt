@@ -1,0 +1,112 @@
+###########################################
+##-->  install void linux with btrfs  <--##
+###########################################
+xbps-install -S xtools
+lsblk
+fdisk /dev/sda # g n enter enter +1G t 1 n enter enter enter p w
+mkfs.vfat -F 32 /dev/sda1
+mkfs.btrfs -f /dev/sda2
+BTRFS_OPTIONS="rw,noatime,compress=zstd,space_cache=v2"
+mount -o $BTRFS_OPTIONS /dev/sda2 /mnt
+btrfs su cr /mnt/@
+btrfs su cr /mnt/@home
+btrfs su cr /mnt/@snapshots
+umount /mnt
+mount -o $BTRFS_OPTIONS,subvol=@ /dev/sda2 /mnt/
+mkdir -p /mnt/{home,.snapshots,/boot/efi}
+mount -o $BTRFS_OPTIONS,subvol=@home /dev/sda2 /mnt/home
+mount -o $BTRFS_OPTIONS,subvol=@snapshots /dev/sda2 /mnt/.snapshots
+mount /dev/sda1 /mnt/boot/efi
+REPO=https://repo-fastly.voidlinux.org/current
+REPO=https://repo-default.voidlinux.org/current
+ARCH=x86_64
+XBPS_ARCH=$ARCH xbps-install -S -r /mnt -R "$REPO" base-system linux-headers btrfs-progs grub-x86_64-efi bash-completion NetworkManager dbus xmirror
+cp /etc/resolv.conf /mnt/etc/
+cp /proc/mounts /mnt/etc/fstab
+xchroot /mnt/ /bin/bash
+xbps-install -S vim
+vim /etc/fstab
+xbps-install openntpd
+vim /etc/hostname  # Edit HostName
+ln -sf /usr/share/zoneinfo/Africa/Cairo /etc/localtime
+hwclock --systohc
+ntpd
+vim /etc/rc.conf
+vim /etc/default/libc-locales
+xbps-reconfigure -f glibc-locales
+passwd
+useradd -m -G wheel,audio,video -m ab0z3in4
+passwd ab0z3in4
+EDITOR=vim visudo
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
+<------------------------------------------------------------------------------------------------->
+ln -s /etc/sv/NetworkManager/ /var/service/
+ln -s /etc/sv/dbus /var/service/
+<------------------------------------------------------------------------------------------------->
+#######################
+##-->  add alias  <--##
+#######################
+alias i='sudo xbps-install -S'
+alias u='i && sudo xbps-install -u xbps && sudo xbps-install -u'
+alias q='sudo xbps-query -Rs'
+alias r='sudo xbps-remove -R'
+<------------------------------------------------------------------------------------------------->
+############################
+##-->  Nvidia Drivers  <--##
+############################
+i void-repo-nonfree
+i nvidia intel-ucode 
+<------------------------------------------------------------------------------------------------->
+##########################################
+##-->  xorg and dwm and st terminal  <--##
+##########################################
+i git make gcc libX11-devel libXft-devel libXinerama-devel pkg-config
+i xorg-server xinit xauth xorg-fonts xorg-input-drivers
+vim ~/.xinitrc # exec dwm
+sudo make install clean
+
+#########################################
+##-->  dwm and st terminal Patches  <--##
+#########################################
+-->  dwm Patches  <--
+splitstatus
+noborder
+
+<------------------------------------------------------------------------------------------------->
+##########################################
+##-->  xorg and dwm and st terminal  <--##
+##########################################
+i xorg-server xinit xauth xorg-fonts xorg-input-drivers setxkbmap
+i bspwm sxhkd picom nitrogen polkit-gnome dunst numlockx udiskie polybar rofi alacritty starship xfce4-power-manager neovim network-manager-applet Thunar thunar-archive-plugin pamixer power-profiles-daemon flameshot gnome-calculator vlc mpv gthumb file-roller
+setxkbmap -layout us,ara -variant ,digits -option grp:lctrl_lwin_toggle
+sudo ln -s /etc/sv/power-profiles-daemon /var/service/
+
+<------------------------------------------------------------------------------------------------->
+######################
+##-->  Pipewire  <--##
+######################
+i pipewire libjack-pipewire alsa-pipewire wireplumber
+
+: "${XDG_CONFIG_HOME:=${HOME}/.config}"
+mkdir -p "${XDG_CONFIG_HOME}/pipewire/pipewire.conf.d"
+ln -s /usr/share/examples/wireplumber/10-wireplumber.conf "${XDG_CONFIG_HOME}/pipewire/pipewire.conf.d/"
+<------------------------------------------------------------------------------------------------->
+##################
+##-->  qemu  <--##
+##################
+i libvirt virt-manager qemu polkit
+
+# Edit /etc/libvirt/libvirtd.conf
+# unix_sock_group = "libvirt"
+# unix_sock_rw_perms = "0770"
+sudo usermod -a -G libvirt,kvm $(whoami)
+newgrp libvirt
+sudo ln -s /etc/sv/dbus /var/service/
+sudo ln -s /etc/sv/polkitd /var/service
+sudo ln -s /etc/sv/libvirtd /var/service/
+sudo ln -s /etc/sv/virtlockd /var/service/
+sudo ln -s /etc/sv/virtlogd /var/service/
+sudo virsh net-start default
+sudo virsh net-autostart default
+sudo virsh net-list --all
