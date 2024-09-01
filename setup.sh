@@ -77,7 +77,8 @@ sudo pacman -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-n
 # Edit /etc/libvirt/libvirtd.conf
 # unix_sock_group = "libvirt"
 # unix_sock_rw_perms = "0770"
+# Edit /etc/libvirt/qemu.conf ---> user='current_user' | group='libvirt'
 # Then add your user and create group:
-sudo usermod -a -G libvirt $(whoami)
+sudo usermod -a -G kvm,libvirt $(whoami)
 newgrp libvirt
 sudo systemctl enable --now libvirtd
