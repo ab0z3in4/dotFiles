@@ -4,7 +4,7 @@ super + Return
 
 # file manager
 super + shift + Return
-	thunar
+	nautilus
 
 # program launcher
 super + d
