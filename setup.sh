@@ -27,7 +27,7 @@ cd $Dir
 echo ""
 echo "install Fonts"
 yay --noconfirm -S ttf-ms-fonts ttf-cascadia-code ttf-fira-code ttf-fira-sans ttf-hack ttf-font-awesome otf-font-awesome noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-firacode-nerd ttf-jetbrains-mono ttf-opensans
-cp -r .local/share/fonts ~/
+cp -r .local/ ~/
 sudo cp .config/fontconfig/fonts.conf /etc/fonts/local.conf
 fc-cache -f -v
 sudo fc-cache -fv
@@ -60,7 +60,7 @@ sudo systemctl enable power-profiles-daemon.service
 echo ""
 echo "install GTK and QT Themes"
 yay --noconfirm -S kvantum kvantum-qt5 qt5ct qt6ct orchis-theme kvantum-theme-orchis-git papirus-icon-theme bibata-cursor-theme-bin
-sudo echo -e "QT_QPA_PLATFORMTHEME=qt5ct\nQT_QPA_PLATFORMTHEME=qt6ct\nGTK_THEME=Orchis-Dark-Compact\nEDITOR=vim\nBROWSER=firefox" | sudo tee -a /etc/environment
+sudo echo -e "QT_QPA_PLATFORMTHEME=qt5ct\nQT_QPA_PLATFORMTHEME=qt6ct\nGTK_THEME=adw-gtk3-dark\nEDITOR=vim\nBROWSER=firefox" | sudo tee -a /etc/environment
 sudo echo -e "[Icon Theme]\nInherits=Bibata-Modern-Classic" >> /usr/share/icons/default/index.theme
 
 echo ""
