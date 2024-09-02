@@ -51,8 +51,9 @@ sudo make install clean
 
 echo ""
 echo "Install Bspwm Window Manager"
-yay --noconfirm -S xorg bspwm sxhkd picom nitrogen polkit-gnome dunst numlockx udiskie polybar rofi alacritty starship copyq xfce4-power-manager redshift network-manager-applet nm-connection-editor thunar thunar-archive-plugin pamixer power-profiles-daemon flameshot gnome-calculator vlc mpv gthumb file-roller htop neofetch sublime-text-4
+yay --noconfirm -S xorg bspwm sxhkd picom nitrogen polkit-gnome dunst numlockx udiskie polybar rofi alacritty starship copyq xfce4-power-manager redshift network-manager-applet nm-connection-editor nautilus nautilus-open-any-terminal pamixer power-profiles-daemon flameshot gnome-calculator vlc mpv gthumb file-roller htop neofetch sublime-text-4
 cp -r .bashrc .gtkrc-2.0 .config/ ~/
+gsettings set com.github.stunkymonkey.nautilus-open-any-terminal terminal alacritty
 sudo localectl --no-convert set-x11-keymap us,ara pc104 qwerty grp:lctrl_lwin_toggle
 sudo systemctl enable power-profiles-daemon.service
 
