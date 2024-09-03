@@ -144,3 +144,4 @@ file <image-name>.qcow2
 # Virtualbox Mount File #
 #########################
 sudo usermod -a -G vboxsf $(whoami)
+/mnt/Data	ntfs-3g		defaults,uid=1000,gid=1000,fmask=0133,dmask=022    0 0
