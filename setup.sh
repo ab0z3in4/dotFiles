@@ -51,7 +51,7 @@ sudo make install clean
 
 echo ""
 echo "Install Bspwm Window Manager"
-yay --noconfirm -S xorg bspwm sxhkd picom nitrogen polkit-gnome dunst numlockx udiskie polybar rofi alacritty starship copyq xfce4-power-manager redshift network-manager-applet nm-connection-editor nautilus nautilus-open-any-terminal pamixer power-profiles-daemon flameshot gnome-calculator vlc mpv gthumb file-roller htop neofetch sublime-text-4
+yay --noconfirm -S xorg-xprop bspwm sxhkd picom nitrogen polkit-gnome dunst numlockx udiskie polybar rofi alacritty starship copyq xfce4-power-manager redshift network-manager-applet nm-connection-editor nautilus nautilus-open-any-terminal pamixer power-profiles-daemon flameshot gnome-calculator vlc mpv gthumb file-roller htop neofetch sublime-text-4
 cp -r .bashrc .gtkrc-2.0 .config/ ~/
 gsettings set com.github.stunkymonkey.nautilus-open-any-terminal terminal alacritty
 sudo localectl --no-convert set-x11-keymap us,ara pc104 qwerty grp:lctrl_lwin_toggle
@@ -60,7 +60,7 @@ sudo systemctl enable power-profiles-daemon.service
 echo ""
 echo "install GTK and QT Themes"
 yay --noconfirm -S kvantum kvantum-qt5 qt5ct qt6ct orchis-theme kvantum-theme-orchis-git papirus-icon-theme bibata-cursor-theme-bin
-sudo echo -e "QT_QPA_PLATFORMTHEME=qt5ct\nQT_QPA_PLATFORMTHEME=qt6ct\nGTK_THEME=adw-gtk3-dark\nEDITOR=vim\nBROWSER=firefox" | sudo tee -a /etc/environment
+sudo echo -e "QT_QPA_PLATFORMTHEME=qt5ct\nQT_QPA_PLATFORMTHEME=qt6ct\nGTK_THEME=Orchis-Dark-Compact\nEDITOR=vim\nBROWSER=firefox" | sudo tee -a /etc/environment
 sudo echo -e "[Icon Theme]\nInherits=Bibata-Modern-Classic" >> /usr/share/icons/default/index.theme
 
 echo ""
