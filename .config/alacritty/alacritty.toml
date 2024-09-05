@@ -22,6 +22,10 @@ yellow = "#c4a000"
 background = "#000000"
 foreground = "#dddddd"
 
+[cursor.style]
+shape= "Beam"
+blinking = "Never"
+
 [font]
 size = 11.0
 
