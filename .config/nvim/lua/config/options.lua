@@ -47,3 +47,18 @@ vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
 vim.g.netrw_banner = 0
 vim.g.netrw_mouse = 2
+
+vim.keymap.set("n", "<C-Z>", function()
+  local file_name = vim.api.nvim_buf_get_name(0)
+  local file_type = vim.bo.filetype
+  print(file_name .. " " .. file_type)
+  if file_type == "lua" then
+    vim.cmd(":terminal lua " .. file_name)
+  elseif file_type == "python" then
+    vim.cmd(":terminal python " .. file_name)
+  elseif file_type == "sh" then
+    vim.cmd(":terminal /bin/bash " .. file_name)
+  elseif file_type == "javascript" then
+    vim.cmd(":terminal node " .. file_name)
+  end
+end, { noremap = true, silent = true })
