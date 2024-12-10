@@ -28,7 +28,7 @@ M.config = function()
     "lua_ls",
     "cssls",
     "html",
-    "eslint",
+    "vtsls",
     "pyright",
     "bashls",
     "jsonls",

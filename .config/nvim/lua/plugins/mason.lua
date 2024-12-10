@@ -8,7 +8,7 @@ return {
       "lua_ls",
       "cssls",
       "html",
-      "eslint",
+      "vtsls",
       "pyright",
       "bashls",
       "jsonls",
