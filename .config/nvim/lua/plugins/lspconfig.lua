@@ -29,7 +29,6 @@ M.config = function()
     "cssls",
     "html",
     "ts_ls",
-    "solidity_ls",
     "pyright",
     "bashls",
     "jsonls",
