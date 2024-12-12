@@ -142,6 +142,18 @@ return {
         desc = "Comment",
         mode = "v",
       },
+      {
+        "<leader>u",
+        ":undo<CR>",
+        desc = "Undo",
+        mode = "n",
+      },
+      {
+        "<leader>r",
+        ":redo<CR>",
+        desc = "Redo",
+        mode = "n",
+      },
     })
   end,
 }
