@@ -12,6 +12,7 @@ return {
       "pyright",
       "bashls",
       "jsonls",
+      "yamlls",
     }
     require("mason").setup {
       ui = {
