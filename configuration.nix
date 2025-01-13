@@ -22,21 +22,6 @@
   # Enable Unfree Software
   nixpkgs.config.allowUnfree = true;
 
-  # Nvidia Drivers
-  services.xserver.videoDrivers = ["nvidia"];
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
-    open = false;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-  };
-  hardware.nvidia.prime = {
-    intelBusId = "PCI:0:2:0"; # Replace with actual Intel GPU Bus ID (lspci | grep VGA)
-    nvidiaBusId = "PCI:14:0:0"; # Replace with actual NVIDIA GPU Bus ID (lspci | grep VGA)
-  };
-
   # Use the grub EFI boot loader.
   boot = {
     kernelParams = ["nohibernate"];
@@ -87,6 +72,8 @@
     picom.enable = true;
     xserver = {
       enable = true;
+      # Nvidia Drivers
+      videoDrivers = ["nvidia"];
       windowManager.bspwm.enable = true;
       xkb = {
         layout = "us,ara";
@@ -101,6 +88,20 @@
         theme = "sugar-dark";
       };
     };
+  };
+
+  # Nvidia Drivers
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+  hardware.nvidia.prime = {
+    intelBusId = "PCI:0:2:0"; # Replace with actual Intel GPU Bus ID (lspci | grep VGA)
+    nvidiaBusId = "PCI:14:0:0"; # Replace with actual NVIDIA GPU Bus ID (lspci | grep VGA)
   };
 
   # Enable sound.
