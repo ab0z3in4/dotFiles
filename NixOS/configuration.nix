@@ -1,9 +1,15 @@
 { config, lib, pkgs, ... }:
 
+let
+  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
+in
+
 {
   imports =
     [
       ./hardware-configuration.nix
+      (import "${home-manager}/nixos")
+      ./home.nix
     ];
   documentation.nixos.enable = false;
 
@@ -12,11 +18,11 @@
     "/".options = [ "compress=zstd" ];
     "/home".options = [ "compress=zstd" ];
     "/nix".options = [ "compress=zstd" "noatime" ];
-    "/mnt/Data" = {
+    /*"/mnt/Data" = {
       device = "/dev/sda5";
       fsType = "ntfs";
       options = [ "defaults" "uid=1000" "gid=1000" "fmask=0133" "dmask=022" ];
-    };
+    };*/
   };
 
   # Enable Unfree Software
@@ -38,7 +44,7 @@
       };
       timeout = 5;
     };
-    kernelModules = ["tcp_bbr" "kvm-amd" "kvm-intel" ];
+    kernelModules = ["tcp_bbr" "kvm-intel" ];
     kernel.sysctl = {
       "net.ipv4.tcp_congestion_control" = "bbr";
       "net.core.default_qdisc" = "fq";
@@ -69,11 +75,10 @@
     dbus.enable = true;
     power-profiles-daemon.enable = true;
     libinput.enable = true;
+    openssh.enable = true;
     picom.enable = true;
     xserver = {
       enable = true;
-      # Nvidia Drivers
-      videoDrivers = ["nvidia"];
       windowManager.bspwm.enable = true;
       xkb = {
         layout = "us,ara";
@@ -91,6 +96,7 @@
   };
 
   # Nvidia Drivers
+  /*services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
@@ -102,7 +108,7 @@
   hardware.nvidia.prime = {
     intelBusId = "PCI:0:2:0"; # Replace with actual Intel GPU Bus ID (lspci | grep VGA)
     nvidiaBusId = "PCI:14:0:0"; # Replace with actual NVIDIA GPU Bus ID (lspci | grep VGA)
-  };
+  };*/
 
   # Enable sound.
   hardware.pulseaudio.enable = false;
@@ -116,9 +122,11 @@
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  programs.zsh.enable = true;
   users.users.ab0z3in4 = {
     isNormalUser = true;
     initialPassword = "password";
+    shell = pkgs.zsh;
     extraGroups = [ "wheel" "networkmanager" "audio" "video" "libvirtd" ];
   };
 
@@ -135,6 +143,7 @@
     unrar
     efibootmgr
     grub2
+    ntfs3g
     neovim
     nodejs
     python3
@@ -170,6 +179,7 @@
     mpv
     gthumb
     file-roller
+    thefuck
     libsForQt5.qt5.qtgraphicaleffects
     xdg-desktop-portal-gtk
     gnome-keyring
@@ -177,7 +187,6 @@
     adw-gtk3
     bibata-cursors
     papirus-icon-theme
-    burpsuite
     telegram-desktop
     whatsapp-for-linux
   ];
@@ -201,13 +210,6 @@
     open-sans
   ];
 
-  # QT Themes
-  qt = {
-    enable = true;
-    platformTheme = "gnome";
-    style = "adwaita-dark";
-  };
-
   # Virtualisation
   programs.virt-manager.enable = true;
   virtualisation.libvirtd.enable = true;
@@ -219,6 +221,12 @@
     algorithm = "lz4";
     memoryPercent = 50;
     priority = 999;
+  };
+
+  qt = {
+    enable = true;
+    platformTheme = "gnome";
+    style = "adwaita-dark";
   };
 
   xdg.portal = {
