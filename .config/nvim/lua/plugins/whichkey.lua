@@ -5,7 +5,7 @@ return {
   config = function()
     local which_key = require("which-key")
     which_key.setup({
-          preset = "helix",
+    preset = "helix",
     plugins = {
       marks = true,
       registers = true,
