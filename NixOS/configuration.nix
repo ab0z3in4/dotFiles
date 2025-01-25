@@ -187,6 +187,7 @@ in
     papirus-icon-theme
     telegram-desktop
     whatsapp-for-linux
+    onlyoffice-desktopeditors
   ];
 
   programs.nautilus-open-any-terminal = {
