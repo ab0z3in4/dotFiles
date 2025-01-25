@@ -93,6 +93,14 @@
       };
     };
 
+    # virt-manager
+    dconf.settings = {
+      "org/virt-manager/virt-manager/connections" = {
+        autoconnect = ["qemu:///system"];
+        uris = ["qemu:///system"];
+      };
+    };
+
     # GTK Theme
     gtk = {
       enable = true;

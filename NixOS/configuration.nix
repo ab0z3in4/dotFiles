@@ -18,11 +18,11 @@ in
     "/".options = [ "compress=zstd" ];
     "/home".options = [ "compress=zstd" ];
     "/nix".options = [ "compress=zstd" "noatime" ];
-    /*"/mnt/Data" = {
+    "/mnt/Data" = {
       device = "/dev/sda5";
       fsType = "ntfs";
       options = [ "defaults" "uid=1000" "gid=1000" "fmask=0133" "dmask=022" ];
-    };*/
+    };
   };
 
   # Enable Unfree Software
@@ -30,7 +30,7 @@ in
 
   # Use the grub EFI boot loader.
   boot = {
-    kernelParams = ["nohibernate"];
+    kernelParams = ["nohibernate" "apparmor=1" "security=apparmor" ];
     tmp.cleanOnBoot = true;
     supportedFilesystems = ["ntfs"];
     loader = {
@@ -96,7 +96,7 @@ in
   };
 
   # Nvidia Drivers
-  /*services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
@@ -108,7 +108,7 @@ in
   hardware.nvidia.prime = {
     intelBusId = "PCI:0:2:0"; # Replace with actual Intel GPU Bus ID (lspci | grep VGA)
     nvidiaBusId = "PCI:14:0:0"; # Replace with actual NVIDIA GPU Bus ID (lspci | grep VGA)
-  };*/
+  };
 
   # Enable sound.
   hardware.pulseaudio.enable = false;
@@ -151,7 +151,7 @@ in
     wget
     htop
     neofetch
-    firefox
+    brave
     sddm
     sddm-sugar-dark
     alacritty
@@ -165,9 +165,7 @@ in
     numlockx
     udiskie
     rofi
-    starship
     copyq
-    xfce.xfce4-power-manager
     redshift
     networkmanagerapplet
     nautilus
@@ -190,6 +188,11 @@ in
     telegram-desktop
     whatsapp-for-linux
   ];
+
+  programs.nautilus-open-any-terminal = {
+    enable = true;
+    terminal = "alacritty";
+  };
 
   # Fonts
   fonts.packages = with pkgs; [
@@ -236,6 +239,7 @@ in
   };
 
   security.polkit.enable = true;
+  security.apparmor.enable = true;
 
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
