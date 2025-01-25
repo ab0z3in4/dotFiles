@@ -5,10 +5,39 @@ return {
   config = function()
     local which_key = require("which-key")
     which_key.setup({
-      opts = {
-        mode = "n",
-        prefix = "<leader>",
+          preset = "helix",
+    plugins = {
+      marks = true,
+      registers = true,
+      spelling = {
+        enabled = true,
+        suggestions = 20,
       },
+      presets = {
+        operators = false,
+        motions = false,
+        text_objects = false,
+        windows = false,
+        nav = false,
+        z = false,
+        g = false,
+      },
+    },
+    win = {
+      border = "rounded",
+      no_overlap = false,
+      padding = { 1, 2 }, -- extra window padding [top/bottom, right/left]
+      title = false,
+      title_pos = "center",
+      zindex = 1000,
+    },
+    -- ignore_missing = true,
+    show_help = false,
+    show_keys = false,
+    disable = {
+      buftypes = {},
+      filetypes = { "TelescopePrompt" },
+    },
     })
     which_key.add({
       mode = { "n", "v" },
