@@ -21,7 +21,7 @@ in
     "/mnt/Data" = {
       device = "/dev/sda5";
       fsType = "ntfs";
-      options = [ "defaults" "uid=1000" "gid=1000" "fmask=0133" "dmask=022" ];
+      options = [ "defaults" "uid=1000" "gid=100" "fmask=0133" "dmask=022" ];
     };
   };
 
@@ -60,7 +60,7 @@ in
       };
       timeout = 5;
     };
-    kernelModules = ["tcp_bbr" "kvm-intel" ];
+    kernelModules = ["tcp_bbr" "nvidia" "nvidia_modeset" "nvidia-uvm" "nvidia_drm" "kvm-intel" ];
     kernel.sysctl = {
       "net.ipv4.tcp_congestion_control" = "bbr";
       "net.core.default_qdisc" = "fq";
@@ -91,7 +91,6 @@ in
     dbus.enable = true;
     power-profiles-daemon.enable = true;
     libinput.enable = true;
-    openssh.enable = true;
     picom.enable = true;
     xserver = {
       enable = true;
@@ -160,6 +159,7 @@ in
     efibootmgr
     grub2
     ntfs3g
+    mesa
     neovim
     nodejs
     python3
