@@ -439,6 +439,34 @@
       ];
     };
 
+    # Picom
+    services.picom = {
+      enable = true;
+      backend = "glx";
+      vSync = true;
+      settings = {
+        blur = {
+          method = "gaussian";
+          size = 10;
+          deviation = 5.0;
+        };
+        corner-radius = 8;
+      };
+      shadow = true;
+      fade = true;
+      fadeSteps = [ 0.028 0.03 ];
+    };
+
+    # FontConfig
+    fonts.fontconfig = {
+      enable = true;
+      defaultFonts = {
+        sansSerif = [ "Liberation Sans" "Noto Sans Arabic" ];
+        serif = [ "Liberation Serif" "Noto Sans Arabic" ];
+        monospace = [ "JetBrains Mono Medium" "Noto Sans Arabic" ];
+      };
+    };
+
     home.stateVersion = "24.11";
   };
 }
