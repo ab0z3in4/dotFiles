@@ -90,6 +90,7 @@ in
   services = {
     dbus.enable = true;
     power-profiles-daemon.enable = true;
+    blueman.enable = true;
     libinput.enable = true;
     picom.enable = true;
     xserver = {
@@ -110,7 +111,13 @@ in
     };
   };
 
-  # Nvidia Drivers
+  # System Drivers
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [ intel-media-driver intel-compute-runtime mesa ];
+  };
   services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
     modesetting.enable = true;
@@ -120,7 +127,11 @@ in
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
-  hardware.nvidia.prime = {
+  hardware.nvidia.prime = 
+    offload = {
+      enable = true;
+      enableOffloadCmd = true;
+    };
     intelBusId = "PCI:0:2:0"; # Replace with actual Intel GPU Bus ID (lspci | grep VGA)
     nvidiaBusId = "PCI:14:0:0"; # Replace with actual NVIDIA GPU Bus ID (lspci | grep VGA)
   };
@@ -147,8 +158,6 @@ in
 
   environment.sessionVariables = rec {
     GTK_THEME="adw-gtk3-dark";
-    EDITOR="vim";
-    BROWSER="firefox";
   };
 
   # List packages installed in system profile.
@@ -159,7 +168,6 @@ in
     efibootmgr
     grub2
     ntfs3g
-    mesa
     neovim
     nodejs
     python3
@@ -216,7 +224,7 @@ in
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
-    nerdfonts
+    (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
     cantarell-fonts
     cascadia-code
     fira-code
@@ -232,7 +240,26 @@ in
 
   # Virtualisation
   programs.virt-manager.enable = true;
-  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    onShutdown = "suspend";
+    onBoot = "ignore";
+    qemu = {
+      package = pkgs.qemu_kvm;
+      ovmf.enable = true;
+      ovmf.packages = [ pkgs.OVMFFull.fd ];
+      swtpm.enable = true;
+      runAsRoot = false;
+    };
+  };
+  environment.etc = {
+    "ovmf/edk2-x86_64-secure-code.fd" = {
+      source = config.virtualisation.libvirtd.qemu.package + "/share/qemu/edk2-x86_64-secure-code.fd";
+    };
+    "ovmf/edk2-i386-vars.fd" = {
+      source = config.virtualisation.libvirtd.qemu.package + "/share/qemu/edk2-i386-vars.fd";
+    };
+  };
   virtualisation.spiceUSBRedirection.enable = true;
 
   # ZRAM SWAP
