@@ -127,14 +127,6 @@ in
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
-  hardware.nvidia.prime = 
-    offload = {
-      enable = true;
-      enableOffloadCmd = true;
-    };
-    intelBusId = "PCI:0:2:0"; # Replace with actual Intel GPU Bus ID (lspci | grep VGA)
-    nvidiaBusId = "PCI:14:0:0"; # Replace with actual NVIDIA GPU Bus ID (lspci | grep VGA)
-  };
 
   # Enable sound.
   hardware.pulseaudio.enable = false;
