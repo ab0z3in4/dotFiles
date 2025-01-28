@@ -204,7 +204,6 @@ in
     gthumb
     file-roller
     thefuck
-    libsForQt5.qt5.qtgraphicaleffects
     xdg-desktop-portal-gtk
     gnome-keyring
     adwaita-qt
@@ -212,7 +211,7 @@ in
     bibata-cursors
     papirus-icon-theme
     telegram-desktop
-    whatsapp-for-linux
+    zapzap
     onlyoffice-desktopeditors
   ];
 
