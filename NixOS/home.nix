@@ -461,9 +461,9 @@
     fonts.fontconfig = {
       enable = true;
       defaultFonts = {
-        sansSerif = [ "Liberation Sans" "Noto Sans Arabic" ];
-        serif = [ "Liberation Serif" "Noto Sans Arabic" ];
-        monospace = [ "JetBrains Mono Medium" "Noto Sans Arabic" ];
+        sansSerif = [ "Arimo" "Noto Naskh Arabic" ];
+        serif = [ "Tinos" "Noto Naskh Arabic" ];
+        monospace = [ "Cousine" "Noto Naskh Arabic" ];
       };
     };
 
