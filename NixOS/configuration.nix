@@ -104,9 +104,10 @@ in
       };
     };
     displayManager = {
-      sddm = {
+      defaultSession = "none+bspwm";
+      autoLogin = {
         enable = true;
-        theme = "sugar-dark";
+        user = "ab0z3in4";
       };
     };
   };
