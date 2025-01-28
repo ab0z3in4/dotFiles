@@ -171,7 +171,7 @@ in
     ntfs3g
     brightnessctl
     neovim
-    nodejs
+    nodejs_22
     python3
     gcc
     wget
