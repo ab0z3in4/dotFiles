@@ -433,7 +433,6 @@
         "copyq"
         "blueman-applet"
         "numlockx on"
-        "xfce4-power-manager"
         "redshift -O 4500K"
         "xsetroot -cursor_name left_ptr"
       ];
