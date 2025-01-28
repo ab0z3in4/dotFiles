@@ -453,6 +453,7 @@
         corner-radius = 8;
       };
       shadow = true;
+      shadowExclude = [ "class_g = 'Polybar'" ];
       fade = true;
       fadeSteps = [ 0.028 0.03 ];
     };
