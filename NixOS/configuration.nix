@@ -60,7 +60,7 @@ in
       };
       timeout = 5;
     };
-    kernelModules = ["tcp_bbr" "nvidia" "nvidia_modeset" "nvidia-uvm" "nvidia_drm" "kvm-intel" ];
+    kernelModules = [ "tcp_bbr" "nvidia" "nvidia_modeset" "nvidia-uvm" "nvidia_drm" "kvm-intel" ];
     kernel.sysctl = {
       "net.ipv4.tcp_congestion_control" = "bbr";
       "net.core.default_qdisc" = "fq";
@@ -116,9 +116,9 @@ in
   hardware.bluetooth.powerOnBoot = true;
   hardware.graphics = {
     enable = true;
-    extraPackages = with pkgs; [ intel-media-driver intel-compute-runtime mesa ];
+    extraPackages = with pkgs; [ vaapiIntel vpl-gpu-rt intel-media-driver intel-compute-runtime mesa ];
   };
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
@@ -126,6 +126,14 @@ in
     open = false;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+  hardware.nvidia.prime = {
+    offload = {
+      enable = true;
+      enableOffloadCmd = true;
+    };
+    intelBusId = "PCI:0:2:0";
+    nvidiaBusId = "PCI:14:0:0";
   };
 
   # Enable sound.
@@ -145,7 +153,7 @@ in
     isNormalUser = true;
     initialPassword = "password";
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "networkmanager" "audio" "video" "libvirtd" ];
+    extraGroups = [ "wheel" "networkmanager" "audio" "video" "libvirtd" "kvm" ];
   };
 
   environment.sessionVariables = rec {
@@ -160,6 +168,7 @@ in
     efibootmgr
     grub2
     ntfs3g
+    brightnessctl
     neovim
     nodejs
     python3
@@ -231,28 +240,9 @@ in
   ];
 
   # Virtualisation
-  programs.virt-manager.enable = true;
-  virtualisation.libvirtd = {
-    enable = true;
-    onShutdown = "suspend";
-    onBoot = "ignore";
-    qemu = {
-      package = pkgs.qemu_kvm;
-      ovmf.enable = true;
-      ovmf.packages = [ pkgs.OVMFFull.fd ];
-      swtpm.enable = true;
-      runAsRoot = false;
-    };
-  };
-  environment.etc = {
-    "ovmf/edk2-x86_64-secure-code.fd" = {
-      source = config.virtualisation.libvirtd.qemu.package + "/share/qemu/edk2-x86_64-secure-code.fd";
-    };
-    "ovmf/edk2-i386-vars.fd" = {
-      source = config.virtualisation.libvirtd.qemu.package + "/share/qemu/edk2-i386-vars.fd";
-    };
-  };
+  virtualisation.libvirtd.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
+  programs.virt-manager.enable = true;
 
   # ZRAM SWAP
   zramSwap = {
