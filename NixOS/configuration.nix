@@ -178,8 +178,6 @@ in
     htop
     neofetch
     brave
-    sddm
-    sddm-sugar-dark
     alacritty
     bspwm
     sxhkd
