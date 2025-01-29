@@ -219,7 +219,7 @@
           font-0 = "Fira Sans SemiBold:size=11;2";
           font-1 = "Font Awesome 6 Free Solid:pixelsize=11;2";
           modules-left = "xworkspaces xwindow";
-          modules-right = "backlight memory cpu battery xkeyboard date systray";
+          modules-right = "backlight pipewire memory cpu battery xkeyboard date systray";
           cursor-click = "pointer";
           cursor-scroll = "ns-resize";
           enable-ipc = true;
@@ -321,16 +321,29 @@
           poll-interval = 5;
         };
         "module/backlight" = {
-          type = "internal/xbacklight";
-          card = "intel_backlight";
-          use-actual-brightness = true;
-          scroll-interval = 5;
-          poll-interval = 0;
-          enable-scroll = true;
+          type = "custom/script";
+          exec = "sh -c 'echo $(( $(brightnessctl g) * 100 / $(brightnessctl m) ))'";
+          format = "<label>";
+          label = "%output%%";
+          tail = true;
+          scroll-up = "brightnessctl set 5%+";
+          scroll-down = "brightnessctl set 5%-";
+          format-foreground = "#FFFFFF";
           format-prefix = " ";
           format-prefix-foreground = "#E57C46";
+        };
+        "module/pipewire" = {
+          type = "custom/script";
+          exec = "pamixer --get-volume-human";
+          tail = true;
+          format = "<label>";
+          label = "%output%";
+          click-left = "pamixer --toggle-mute";
+          scroll-up = "pamixer --unmute && pamixer --increase 5";
+          scroll-down = "pamixer --unmute && pamixer --decrease 5";
           format-foreground = "#FFFFFF";
-          label = "%percentage%%";
+          format-prefix = " ";
+          format-prefix-foreground = "#8897F4";
         };
       };
       script = "polybar mainbar &";

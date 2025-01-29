@@ -60,7 +60,7 @@ in
       };
       timeout = 5;
     };
-    kernelModules = [ "tcp_bbr" "nvidia" "nvidia_modeset" "nvidia-uvm" "nvidia_drm" "kvm-intel" ];
+    kernelModules = ["tcp_bbr" "nvidia" "nvidia_modeset" "nvidia-uvm" "nvidia_drm" "kvm-intel" ];
     kernel.sysctl = {
       "net.ipv4.tcp_congestion_control" = "bbr";
       "net.core.default_qdisc" = "fq";
@@ -89,6 +89,9 @@ in
 
   services = {
     dbus.enable = true;
+    udisks2.enable = true;
+    udisks2.mountOnMedia = true;
+    gvfs.enable = true;
     power-profiles-daemon.enable = true;
     blueman.enable = true;
     libinput.enable = true;
@@ -125,7 +128,7 @@ in
     enable = true;
     extraPackages = with pkgs; [ vaapiIntel vpl-gpu-rt intel-media-driver intel-compute-runtime mesa ];
   };
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
@@ -158,7 +161,7 @@ in
   programs.zsh.enable = true;
   users.users.ab0z3in4 = {
     isNormalUser = true;
-    initialPassword = "password";
+    #initialPassword = "password";
     shell = pkgs.zsh;
     extraGroups = [ "wheel" "networkmanager" "audio" "video" "libvirtd" "kvm" ];
   };
@@ -289,3 +292,4 @@ in
 
   system.stateVersion = "24.11";
 }
+
