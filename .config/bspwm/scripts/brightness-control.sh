@@ -3,9 +3,7 @@
 icon="display-brightness"
 
 function get_brightness {
-  x=$(brightnessctl get)
-  y=$(awk "BEGIN {print ($x / 26666) * 100}")
-  echo "$y"
+  echo "$(awk "BEGIN {print ($(brightnessctl g) / $(brightnessctl m)) * 100}")"
 }
 
 function send_notification {
