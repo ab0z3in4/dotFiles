@@ -221,6 +221,7 @@ in
     telegram-desktop
     zapzap
     onlyoffice-desktopeditors
+    xournalpp
   ];
 
   programs.nautilus-open-any-terminal = {
