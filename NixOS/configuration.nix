@@ -48,7 +48,7 @@ in
       "security=apparmor"
     ];
     tmp.cleanOnBoot = true;
-    supportedFilesystems = ["ntfs"];
+    supportedFilesystems = [ "ntfs" ];
     loader = {
       efi.canTouchEfiVariables = true;
       grub = {
@@ -60,7 +60,7 @@ in
       };
       timeout = 5;
     };
-    kernelModules = ["tcp_bbr" "nvidia" "nvidia_modeset" "nvidia-uvm" "nvidia_drm" "kvm-intel" ];
+    kernelModules = [ "tcp_bbr" "nvidia" "nvidia_modeset" "nvidia-uvm" "nvidia_drm" "kvm-intel" ];
     kernel.sysctl = {
       "net.ipv4.tcp_congestion_control" = "bbr";
       "net.core.default_qdisc" = "fq";
@@ -92,6 +92,7 @@ in
     udisks2.enable = true;
     udisks2.mountOnMedia = true;
     gvfs.enable = true;
+    gnome.gnome-keyring.enable = true;
     power-profiles-daemon.enable = true;
     blueman.enable = true;
     libinput.enable = true;
@@ -128,7 +129,7 @@ in
     enable = true;
     extraPackages = with pkgs; [ vaapiIntel vpl-gpu-rt intel-media-driver intel-compute-runtime mesa ];
   };
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
@@ -175,15 +176,18 @@ in
     git
     gh
     unzip
+    gzip
     unrar
     efibootmgr
     grub2
     ntfs3g
     brightnessctl
     neovim
+    ripgrep
     nodejs_22
     python3
     gcc
+    gnumake
     wget
     htop
     neofetch
@@ -192,7 +196,6 @@ in
     bspwm
     sxhkd
     polybar
-    picom
     nitrogen
     polkit_gnome
     dunst
@@ -205,7 +208,6 @@ in
     nautilus
     nautilus-open-any-terminal
     pamixer
-    power-profiles-daemon
     flameshot
     gnome-calculator
     mpv
@@ -213,7 +215,6 @@ in
     file-roller
     thefuck
     xdg-desktop-portal-gtk
-    gnome-keyring
     adwaita-qt
     adw-gtk3
     bibata-cursors
@@ -222,7 +223,11 @@ in
     zapzap
     onlyoffice-desktopeditors
     xournalpp
+    vscode
   ];
+
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = [];
 
   programs.nautilus-open-any-terminal = {
     enable = true;
@@ -257,7 +262,7 @@ in
   zramSwap = {
     enable = true;
     algorithm = "lz4";
-    memoryPercent = 50;
+    memoryPercent = 80;
     priority = 999;
   };
 
@@ -270,7 +275,7 @@ in
   xdg.portal = {
     enable = true;
     config.common.default = "*";
-    extraPortals = [pkgs.xdg-desktop-portal-gtk];
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   security.polkit.enable = true;
@@ -279,9 +284,9 @@ in
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
-      wantedBy = ["graphical-session.target"];
-      wants = ["graphical-session.target"];
-      after = ["graphical-session.target"];
+      wantedBy = [ "graphical-session.target" ];
+      wants = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
       serviceConfig = {
         Type = "simple";
         ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
@@ -294,4 +299,3 @@ in
 
   system.stateVersion = "24.11";
 }
-

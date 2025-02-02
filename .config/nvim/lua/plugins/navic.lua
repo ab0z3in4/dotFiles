@@ -1,19 +1,50 @@
-return {
-  "SmiteshP/nvim-navic",
-  dependencies = { "LunarVim/breadcrumbs.nvim" },
-  config = function()
-    require("breadcrumbs").setup()
-    local icons = require("config.icons")
-    require("nvim-navic").setup({
-      icons = icons.kind,
-      highlight = true,
-      lsp = {
-        auto_attach = true,
-      },
-      click = true,
-      separator = " " .. icons.ui.ChevronRight .. " ",
-      depth_limit = 0,
-      depth_limit_indicator = "..",
-    })
-  end,
+local kinds = {
+  Array = " ",
+  Boolean = " ",
+  Class = " ",
+  Color = " ",
+  Constant = " ",
+  Constructor = " ",
+  Enum = " ",
+  EnumMember = " ",
+  Event = " ",
+  Field = " ",
+  File = " ",
+  Folder = "󰉋 ",
+  Function = " ",
+  Interface = " ",
+  Key = " ",
+  Keyword = " ",
+  Method = " ",
+  Module = " ",
+  Namespace = " ",
+  Null = "󰟢 ",
+  Number = " ",
+  Object = " ",
+  Operator = " ",
+  Package = " ",
+  Property = " ",
+  Reference = " ",
+  Snippet = " ",
+  String = " ",
+  Struct = " ",
+  Text = " ",
+  TypeParameter = " ",
+  Unit = " ",
+  Value = " ",
+  Variable = " ",
+}
+local icons = require "config.icons"
+require("breadcrumbs").setup()
+require("nvim-navic").setup {
+  icons = kinds,
+  highlight = true,
+  lsp = {
+    auto_attach = true,
+    preference = { "templ" }
+  },
+  click = true,
+  separator = " " .. icons.ui.ChevronRight .. " ",
+  depth_limit = 0,
+  depth_limit_indicator = "..",
 }
