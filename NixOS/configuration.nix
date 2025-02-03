@@ -162,7 +162,7 @@ in
   programs.zsh.enable = true;
   users.users.ab0z3in4 = {
     isNormalUser = true;
-    initialPassword = "password";
+    #initialPassword = "password";
     shell = pkgs.zsh;
     extraGroups = [ "wheel" "networkmanager" "audio" "video" "libvirtd" "kvm" ];
   };
@@ -200,7 +200,6 @@ in
     polkit_gnome
     dunst
     numlockx
-    udiskie
     rofi
     copyq
     redshift
@@ -223,11 +222,25 @@ in
     zapzap
     onlyoffice-desktopeditors
     xournalpp
-    vscode
   ];
 
   programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = [];
+  programs.nix-ld.libraries = with pkgs; [
+    zlib
+    zstd
+    stdenv.cc.cc
+    curl
+    openssl
+    attr
+    libssh
+    bzip2
+    libxml2
+    acl
+    libsodium
+    util-linux
+    xz
+    systemd
+  ];
 
   programs.nautilus-open-any-terminal = {
     enable = true;
