@@ -5,8 +5,7 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     shellAliases = {
-      ll = "ls -l";
-      update = "sudo nixos-rebuild switch";
+      update = "sudo nixos-rebuild switch --flake /etc/nixos#ab0z3in4-PC";
     };
     oh-my-zsh = {
       enable = true;
@@ -14,6 +13,4 @@
       theme = "robbyrussell";
     };
   };
-  home.enableNixpkgsReleaseCheck = false;
-  home.stateVersion = "24.11";
 }
