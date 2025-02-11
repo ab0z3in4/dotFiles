@@ -89,5 +89,6 @@ wk.add {
   { "<leader>ls", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Document Symbols" },
   { "<leader>lS", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", desc = "Workspace Symbols" },
   { "<leader>le", "<cmd>Telescope quickfix<cr>", desc = "Telescope Quickfix" },
-  { "<leader>n", icon = { icon = "󱞂 ", color = "yellow" }, group = "Nostr" },
+  { "<leader>u", ":undo<CR>", desc = "Undo", icon = { icon = " ", color = "green" } },
+  { "<leader>r", ":redo<CR>", desc = "Redo", icon = { icon = " ", color = "green" } }
 }
