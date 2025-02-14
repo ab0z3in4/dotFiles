@@ -86,7 +86,7 @@ Plug('andymass/vim-matchup')
 Plug('ThePrimeagen/harpoon')
 
 -- Codeium
-Plug('Exafunction/codeium.vim')
+-- Plug('Exafunction/codeium.vim')
 
 -- WhichKey
 Plug('folke/which-key.nvim')
@@ -117,5 +117,5 @@ require("plugins.colorizer")
 require("plugins.modicator")
 require("plugins.matchup")
 require("plugins.harpoon")
-require("plugins.codeium")
+-- require("plugins.codeium")
 require("plugins.whichkey")
