@@ -1,2 +1,4 @@
 [Icon Theme]
-Inherits=Bibata-Modern-Classic
+Name=Default
+Comment=Default Cursor Theme
+Inherits=capitaine-cursors-white
