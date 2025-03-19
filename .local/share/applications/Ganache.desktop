@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Ganache
+Exec=/home/ab0z3in4/.local/share/applications/Ganache/ganache.AppImage
+Icon=/home/ab0z3in4/.local/share/applications/Ganache/ganache.png
+Categories=Development;Blockchain;
+Comment=Personal Ethereum blockchain for development
+GenericName=Ethereum Development Environment
+Terminal=false
