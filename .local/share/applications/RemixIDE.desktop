@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
-Name=Ganache
-Exec=/home/ab0z3in4/.local/share/applications/Ganache/Ganache.AppImage
-Icon=/home/ab0z3in4/.local/share/applications/Ganache/Ganache.png
+Name=RemixIDE
+Exec=/home/ab0z3in4/.local/share/applications/RemixIDE/RemixIDE.AppImage
+Icon=/home/ab0z3in4/.local/share/applications/RemixIDE/RemixIDE.png
 Categories=Development;Blockchain;
 Comment=Personal Ethereum blockchain for development
 GenericName=Ethereum Development Environment
