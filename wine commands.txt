@@ -1,0 +1,20 @@
+WINEPREFIX=/mnt/Data/El-Shamela umu-run winetricks vb6run corefonts tahoma 2> /dev/null
+
+cat << EOF > /tmp/fontsmoothing.reg
+REGEDIT4
+
+[HKEY_CURRENT_USER\Control Panel\Desktop]
+"FontSmoothing"="2"
+"FontSmoothingOrientation"=dword:00000001
+"FontSmoothingType"=dword:00000002
+"FontSmoothingGamma"=dword:00000578
+EOF
+
+nix-shell -p wineWow64Packages.base
+WINEPREFIX=/mnt/Data/El-Shamela wine regedit /tmp/fontsmoothing.reg 2> /dev/null
+WINEPREFIX=/mnt/Data/El-Shamela wine reg add "HKCU\\Software\\Wine\\X11 Driver" /v ClientSideWithRender /t REG_SZ /d N /f 2> /dev/null
+WINEPREFIX=/mnt/Data/El-Shamela umu-run winetricks settings fontsmooth=rgb 2> /dev/null
+
+WINEPREFIX=/mnt/Data/El-Shamela umu-run /mnt/Data/shamela-setup/shamela.exe -opengl -SkipBuildPatchPrereq 2> /dev/null
+
+WINEPREFIX=/mnt/Data/El-Shamela umu-run /mnt/Data/El-Shamela/drive_c/shamela4/launcher.exe -opengl -SkipBuildPatchPrereq 2> /dev/null
