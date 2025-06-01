@@ -13,7 +13,7 @@ EOF
 nix-shell -p wineWow64Packages.base
 WINEPREFIX=/mnt/Data/El-Shamela wine regedit /tmp/fontsmoothing.reg 2> /dev/null
 WINEPREFIX=/mnt/Data/El-Shamela wine reg add "HKCU\\Software\\Wine\\X11 Driver" /v ClientSideWithRender /t REG_SZ /d N /f 2> /dev/null
-WINEPREFIX=/mnt/Data/El-Shamela umu-run winetricks settings fontsmooth=rgb 2> /dev/null
+WINEPREFIX=/mnt/Data/El-Shamela umu-run winetricks fontsmooth=rgb 2> /dev/null
 WINEPREFIX=/mnt/Data/El-Shamela winecfg
 
 WINEPREFIX=/mnt/Data/El-Shamela umu-run /mnt/Data/shamela-setup/shamela.exe -opengl -SkipBuildPatchPrereq 2> /dev/null
