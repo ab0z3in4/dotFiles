@@ -1,4 +1,4 @@
-WINEPREFIX=/mnt/Data/El-Shamela umu-run winetricks vb6run corefonts tahoma 2> /dev/null
+WINEPREFIX=/mnt/Data/El-Shamela umu-run winetricks dotnet40 msxml6 riched20 gdiplus vb6run corefonts tahoma 2> /dev/null
 
 cat << EOF > /tmp/fontsmoothing.reg
 REGEDIT4
